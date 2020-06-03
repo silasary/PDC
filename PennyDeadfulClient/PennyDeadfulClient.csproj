@@ -8,9 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="DSharpPlus.Rest" Version="3.2.3" />
+    <PackageReference Include="GameOverlay.Net" Version="4.2.0" />
     <PackageReference Include="Gatherling" Version="1.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Overlay.NET" Version="1.0.2" />
   </ItemGroup>
 
 </Project>

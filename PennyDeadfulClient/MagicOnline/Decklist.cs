@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Automation;
 
 namespace PennyDeadfulClient.MagicOnline
@@ -60,11 +60,11 @@ namespace PennyDeadfulClient.MagicOnline
                     {
                         // Overlay
                         var loc = card.handle.Current.BoundingRectangle;
-                        decklistErrors.Add(loc.Location);
+                        decklistErrors.Add(new Point((int)loc.X, (int)loc.Y));
                     }
                 }
             }
-            PlayLobbyOverlay.DeckListErrors = decklistErrors.ToArray();
+            PlayLobbySceneView.DeckListErrors = decklistErrors.ToArray();
 
             return allLegal;
         }
@@ -79,7 +79,7 @@ namespace PennyDeadfulClient.MagicOnline
                 var texts = handle.FindAll(TreeScope.Children, new PropertyCondition(AutomationElement.ClassNameProperty, "TextBlock")).Cast<AutomationElement>().ToArray();
                 this.Quantity = int.Parse(texts[0].Current.Name);
                 this.CardName = texts[1].Current.Name;
-                PennyDreadfulLegality.IsLegal(CardName);
+                Legal = PennyDreadfulLegality.IsLegal(CardName); 
             }
 
             public int Quantity { get; }

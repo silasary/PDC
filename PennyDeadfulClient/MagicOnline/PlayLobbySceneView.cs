@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Automation;
@@ -38,14 +39,22 @@ namespace PennyDeadfulClient.MagicOnline
             }
 
             var PlayLobbyEventDeckView = handle.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ClassNameProperty, "PlayLobbyEventDeckView"));
-            if (PlayLobbyEventDeckView != null)
+            if (PlayLobbyEventDeckView != null && !PlayLobbyEventDeckView.Current.IsOffscreen)
             {
                 DeckName = PlayLobbyEventDeckView.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.ClassNameProperty, "TextBlock")).Current.Name;
             }
 
 
-            Decklist = new Decklist(handle.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ClassNameProperty, "PlayLobbyDeckListView")));
-            Decklist.IsPDLegal();
+            AutomationElement PlayLobbyDeckListView = handle.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ClassNameProperty, "PlayLobbyDeckListView"));
+            if (PlayLobbyDeckListView != null)
+            {
+                Decklist = new Decklist(PlayLobbyDeckListView);
+                Decklist.IsPDLegal();
+            }
+            else if (DeckListErrors != null && DeckListErrors.Any())
+            {
+                DeckListErrors = null;
+            }
 
         }
 

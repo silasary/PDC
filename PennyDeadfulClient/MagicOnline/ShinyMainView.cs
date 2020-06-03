@@ -42,14 +42,16 @@ namespace PennyDeadfulClient.MagicOnline
                 Username = new ChangeAvatarMainNavButton(handle).Username;
 
             var RadPaneGroup = handle.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.AutomationIdProperty, "MainWindowPane"));
+            if (RadPaneGroup == null)
+                return;
             CurrentScene = RadPaneGroup.FindFirst(TreeScope.Children, new PropertyCondition(AutomationElement.LocalizedControlTypeProperty, "custom"));
             switch (currentScene.Current.ClassName)
             {
                 case "PlayLobbySceneView":
                     if (PlayLobby == null)
                     {
-                        this.PlayLobby = new PlayLobbySceneView();
-                        PlayLobby.StartOverlay(GetProcess());
+                        this.PlayLobby = new PlayLobbySceneView((IntPtr)handle.Current.NativeWindowHandle, handle);
+
                     }
 
                     this.PlayLobby.Scan(CurrentScene);

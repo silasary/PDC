@@ -41,7 +41,7 @@ namespace PennyDeadfulClient
 
         internal void SetTimer(Dispatcher dispatcher)
         {
-            timer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, OnCapture, dispatcher);
+            timer = new DispatcherTimer(TimeSpan.FromMilliseconds(1000 / 20), DispatcherPriority.Normal, OnCapture, dispatcher);
             timer.Start();
         }
 
