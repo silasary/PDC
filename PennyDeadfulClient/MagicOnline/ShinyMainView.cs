@@ -47,7 +47,10 @@ namespace PennyDeadfulClient.MagicOnline
             {
                 case "PlayLobbySceneView":
                     if (PlayLobby == null)
+                    {
                         this.PlayLobby = new PlayLobbySceneView();
+                        PlayLobby.StartOverlay(GetProcess());
+                    }
 
                     this.PlayLobby.Scan(CurrentScene);
                     break;

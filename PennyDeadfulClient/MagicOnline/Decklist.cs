@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Automation;
 
 namespace PennyDeadfulClient.MagicOnline
@@ -18,7 +19,7 @@ namespace PennyDeadfulClient.MagicOnline
             var sb = new List<LineItem>();
             List<LineItem> curr = null;
             this.automationElement = automationElement;
-            foreach (AutomationElement item in automationElement.FindAll(TreeScope.Children, Condition.TrueCondition))
+            foreach (AutomationElement item in automationElement.FindAll(TreeScope.Children, System.Windows.Automation.Condition.TrueCondition))
             {
                 switch (item.Current.ClassName)
                 {
@@ -48,21 +49,23 @@ namespace PennyDeadfulClient.MagicOnline
 
         public bool IsPDLegal()
         {
+            var decklistErrors = new List<Point>();
             bool allLegal = true;
             foreach (var card in Maindeck.Union(Sideboard))
             {
-                bool legal = PennyDreadfulLegality.IsLegal(card.CardName);
-                if (!legal)
+                if (!card.Legal)
                 {
                     allLegal = false;
                     if (!card.handle.Current.IsOffscreen)
                     {
                         // Overlay
                         var loc = card.handle.Current.BoundingRectangle;
-                        
+                        decklistErrors.Add(loc.Location);
                     }
                 }
             }
+            PlayLobbyOverlay.DeckListErrors = decklistErrors.ToArray();
+
             return allLegal;
         }
 
@@ -76,12 +79,14 @@ namespace PennyDeadfulClient.MagicOnline
                 var texts = handle.FindAll(TreeScope.Children, new PropertyCondition(AutomationElement.ClassNameProperty, "TextBlock")).Cast<AutomationElement>().ToArray();
                 this.Quantity = int.Parse(texts[0].Current.Name);
                 this.CardName = texts[1].Current.Name;
-
+                PennyDreadfulLegality.IsLegal(CardName);
             }
 
             public int Quantity { get; }
             public string CardName { get; }
-            
+
+            public bool Legal { get; set; }
+
             public override string ToString()
             {
                 return $"{Quantity} {CardName}";

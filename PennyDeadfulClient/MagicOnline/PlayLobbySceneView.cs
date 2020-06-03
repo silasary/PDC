@@ -46,6 +46,7 @@ namespace PennyDeadfulClient.MagicOnline
 
             Decklist = new Decklist(handle.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ClassNameProperty, "PlayLobbyDeckListView")));
             Decklist.IsPDLegal();
+
         }
 
 

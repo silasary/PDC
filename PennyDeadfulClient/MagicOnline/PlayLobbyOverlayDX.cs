@@ -7,38 +7,38 @@
 
 //namespace PennyDeadfulClient.MagicOnline
 //{
-//    partial class PlayLobbySceneView : IDisposable
-//    {
-//        private readonly GraphicsWindow _window;
+//	partial class PlayLobbySceneView : IDisposable
+//	{
+//		private readonly GraphicsWindow _window;
 
-//        private readonly Dictionary<string, SolidBrush> _brushes;
-//        private readonly Dictionary<string, Font> _fonts;
-//        private readonly Dictionary<string, Image> _images;
-//        private Geometry _gridGeometry;
-//        private Rectangle _gridBounds;
+//		private readonly Dictionary<string, SolidBrush> _brushes;
+//		private readonly Dictionary<string, Font> _fonts;
+//		private readonly Dictionary<string, Image> _images;
+//		private Geometry _gridGeometry;
+//		private Rectangle _gridBounds;
 
-//        public PlayLobbySceneView()
-//        {
-//            _brushes = new Dictionary<string, SolidBrush>();
-//            _fonts = new Dictionary<string, Font>();
-//            _images = new Dictionary<string, Image>();
-//            var gfx = new Graphics()
-//            {
-//                MeasureFPS = true,
-//                PerPrimitiveAntiAliasing = true,
-//                TextAntiAliasing = true
-//            };
-//            _window = new GraphicsWindow(0, 0, 800, 600, gfx)
-//            {
-//                FPS = 60,
-//                IsTopmost = true,
-//                IsVisible = true
-//            };
-//            _window.DestroyGraphics += _window_DestroyGraphics;
-//            _window.DrawGraphics += _window_DrawGraphics;
-//            _window.SetupGraphics += _window_SetupGraphics;
+//		public PlayLobbySceneView()
+//		{
+//			_brushes = new Dictionary<string, SolidBrush>();
+//			_fonts = new Dictionary<string, Font>();
+//			_images = new Dictionary<string, Image>();
+//			var gfx = new Graphics()
+//			{
+//				MeasureFPS = true,
+//				PerPrimitiveAntiAliasing = true,
+//				TextAntiAliasing = true
+//			};
+//			_window = new GraphicsWindow(0, 0, 800, 600, gfx)
+//			{
+//				FPS = 60,
+//				IsTopmost = true,
+//				IsVisible = true
+//			};
+//			_window.DestroyGraphics += _window_DestroyGraphics;
+//			_window.DrawGraphics += _window_DrawGraphics;
+//			_window.SetupGraphics += _window_SetupGraphics;
 
-//        }
+//		}
 //		private void _window_SetupGraphics(object sender, SetupGraphicsEventArgs e)
 //		{
 //			var gfx = e.Graphics;
@@ -116,24 +116,24 @@
 //		{
 //			Dispose(false);
 //		}
-//        protected virtual void Dispose(bool disposing)
-//        {
-//            if (!disposedValue)
-//            {
-//                if (disposing)
-//                {
+//		protected virtual void Dispose(bool disposing)
+//		{
+//			if (!disposedValue)
+//			{
+//				if (disposing)
+//				{
 //					_window.Dispose();
 //				}
 
-//                disposedValue = true;
-//            }
-//        }
+//				disposedValue = true;
+//			}
+//		}
 
-//        public void Dispose()
-//        {
-//            Dispose(true);
+//		public void Dispose()
+//		{
+//			Dispose(true);
 //			GC.SuppressFinalize(this);
 //		}
-//        #endregion
-//    }
+//		#endregion
+//	}
 //}
