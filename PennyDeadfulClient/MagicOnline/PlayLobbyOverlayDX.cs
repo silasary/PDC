@@ -19,6 +19,8 @@ namespace PennyDeadfulClient.MagicOnline
 		private readonly GraphicsWindow _window;
 
 		public static System.Drawing.Point[] DeckListErrors { get; internal set; }
+		public Point FftpLabelLocation { get; private set; }
+
 
 		private readonly Dictionary<string, SolidBrush> _brushes;
 		private readonly Dictionary<string, Font> _fonts;
@@ -68,13 +70,14 @@ namespace PennyDeadfulClient.MagicOnline
 			_brushes["green"] = gfx.CreateSolidBrush(0, 255, 0);
 			_brushes["blue"] = gfx.CreateSolidBrush(0, 0, 255);
 			_brushes["background"] = gfx.CreateSolidBrush(0x33, 0x36, 0x3F);
-			_brushes["grid"] = gfx.CreateSolidBrush(255, 255, 255, 0.2f);
+			_brushes["yellow"] = gfx.CreateSolidBrush(255, 255, 0);
 			_brushes["random"] = gfx.CreateSolidBrush(0, 0, 0);
 
 			if (e.RecreateResources) return;
 
 			_fonts["arial"] = gfx.CreateFont("Arial", 12);
 			_fonts["consolas"] = gfx.CreateFont("Consolas", 14);
+			_fonts["calibri"] = gfx.CreateFont("Calibri", 14);
 		}
 
 		private void _window_DestroyGraphics(object sender, DestroyGraphicsEventArgs e)
@@ -86,7 +89,7 @@ namespace PennyDeadfulClient.MagicOnline
 
 		private void _window_DrawGraphics(object sender, DrawGraphicsEventArgs e)
 		{
-			var abs = new Point((int)shinyMain.Current.BoundingRectangle.X, (int)shinyMain.Current.BoundingRectangle.Y);
+			var abs = shinyMain.Current.BoundingRectangle.Location.ToDrawing();
 
 			var gfx = e.Graphics;
 
@@ -106,11 +109,16 @@ namespace PennyDeadfulClient.MagicOnline
 
 			gfx.DrawTextWithBackground(_fonts["consolas"], _brushes["green"], _brushes["black"], 250, 3, infoText);
 
+			if (FftpLabelLocation != null)
+			{
+				gfx.DrawText(_fonts["calibri"], _brushes["white"], new Point(FftpLabelLocation.X - abs.X + 75, FftpLabelLocation.Y - abs.Y), "& Penny Dreadful");
+			}
+
 			if (DeckListErrors != null)
 			{
 				foreach (var error in DeckListErrors)
 				{
-					gfx.DrawText(_fonts["consolas"], _brushes["red"], new Point(error.X - abs.X - 20, error.Y - abs.Y + 2), "❌");
+					gfx.DrawText(_fonts["consolas"], _brushes["red"], new Point(error.X - abs.X - 20, error.Y - abs.Y + 2), "🚫");
 				}
 			}
 		}

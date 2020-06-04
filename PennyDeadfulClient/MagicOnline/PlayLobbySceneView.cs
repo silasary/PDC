@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Automation;
 
 namespace PennyDeadfulClient.MagicOnline
@@ -38,6 +39,25 @@ namespace PennyDeadfulClient.MagicOnline
                 Matches = matches.ToArray();
             }
 
+            var FFTP = handle.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.NameProperty, "Freeform Tournament Practice"));
+            if (FFTP == null)
+            {
+                if (DeckListErrors != null)
+                    DeckListErrors = null;
+                return;
+            }
+
+            var fftpOpenPlayViewModel = TreeWalker.ControlViewWalker.GetParent(TreeWalker.ControlViewWalker.GetParent(FFTP));
+
+            var selctable = fftpOpenPlayViewModel.GetCurrentPattern(SelectionItemPattern.Pattern) as SelectionItemPattern;
+            if (!selctable.Current.IsSelected)
+            {
+                if (DeckListErrors != null)
+                    DeckListErrors = null;
+                return;
+            }
+            FftpLabelLocation = FFTP.Current.BoundingRectangle.Location.ToDrawing();
+
             var PlayLobbyEventDeckView = handle.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ClassNameProperty, "PlayLobbyEventDeckView"));
             if (PlayLobbyEventDeckView != null && !PlayLobbyEventDeckView.Current.IsOffscreen)
             {
@@ -51,14 +71,11 @@ namespace PennyDeadfulClient.MagicOnline
                 Decklist = new Decklist(PlayLobbyDeckListView);
                 Decklist.IsPDLegal();
             }
-            else if (DeckListErrors != null && DeckListErrors.Any())
+            else if (DeckListErrors != null)
             {
                 DeckListErrors = null;
             }
 
         }
-
-
-        
     }
 }
