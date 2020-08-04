@@ -8,7 +8,7 @@ namespace PennyDeadfulClient
 {
     static class PennyDreadfulLegality
     {
-        private static string[] cards = new WebClient().DownloadString("http://pdmtgo.com/legal_cards.txt").Split('\n');
+        private static string[] cards = new WebClient().DownloadString("http://pdmtgo.com/legal_cards.txt").Replace("\r","").Split('\n');
 
         internal static bool IsLegal(string cardName)
         {

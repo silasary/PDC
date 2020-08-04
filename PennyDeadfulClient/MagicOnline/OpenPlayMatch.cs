@@ -14,6 +14,8 @@ namespace PennyDeadfulClient.MagicOnline
         {
             this.openPlayMatch = openPlayMatch;
             var children = openPlayMatch.FindAll(TreeScope.Children, new PropertyCondition(AutomationElement.ClassNameProperty, "TextBlock")).Cast<AutomationElement>().ToList();
+            if (!children.Any())
+                return;
             Action = children.Last().Current.Name;
             children.RemoveAt(children.Count - 1);
             Comment = children.Last().Current.Name;
